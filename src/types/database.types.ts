@@ -34,6 +34,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          id: number
+          timestamp: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          id?: number
+          timestamp?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          id?: number
+          timestamp?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dashboard_preferences: {
+        Row: {
+          created_at: string
+          status_id: number
+          user_id: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          status_id?: number
+          user_id: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          status_id?: number
+          user_id?: string
+          visible?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dashboard_preferences_status_id_fkey"
+            columns: ["status_id"]
+            isOneToOne: true
+            referencedRelation: "statuses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dashboard_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -111,36 +176,46 @@ export type Database = {
       }
       submissions: {
         Row: {
+          assigned_user_id: string | null
           budget_from: number
           budget_to: number
           created_at: string
           id: number
           name: string
           phone: string
-          status_id: number
+          status_id: number | null
           vehicle_type: string
         }
         Insert: {
+          assigned_user_id?: string | null
           budget_from: number
           budget_to: number
           created_at?: string
           id?: number
           name: string
           phone: string
-          status_id: number
+          status_id?: number | null
           vehicle_type: string
         }
         Update: {
+          assigned_user_id?: string | null
           budget_from?: number
           budget_to?: number
           created_at?: string
           id?: number
           name?: string
           phone?: string
-          status_id?: number
+          status_id?: number | null
           vehicle_type?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "submissions_assigned_user_id_fkey"
+            columns: ["assigned_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "submissions_status_id_fkey"
             columns: ["status_id"]
@@ -153,16 +228,19 @@ export type Database = {
       tags: {
         Row: {
           created_at: string
+          hex: string
           id: number
           name: string
         }
         Insert: {
           created_at?: string
+          hex?: string
           id?: number
           name: string
         }
         Update: {
           created_at?: string
+          hex?: string
           id?: number
           name?: string
         }
