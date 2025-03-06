@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/features/global/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar, AppHeader } from "./features/sidebar";
 import { cookies } from "next/headers";
-import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -40,7 +39,6 @@ export default async function RootLayout({
               {children}
             </main>
           </SidebarProvider>
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

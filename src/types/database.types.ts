@@ -63,41 +63,26 @@ export type Database = {
           },
         ]
       }
-      dashboard_preferences: {
+      cms: {
         Row: {
           created_at: string
-          status_id: number
-          user_id: string
-          visible: boolean
+          id: number
+          key: string
+          value: string
         }
         Insert: {
           created_at?: string
-          status_id?: number
-          user_id: string
-          visible?: boolean
+          id?: number
+          key: string
+          value: string
         }
         Update: {
           created_at?: string
-          status_id?: number
-          user_id?: string
-          visible?: boolean
+          id?: number
+          key?: string
+          value?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "dashboard_preferences_status_id_fkey"
-            columns: ["status_id"]
-            isOneToOne: true
-            referencedRelation: "statuses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "dashboard_preferences_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       profiles: {
         Row: {

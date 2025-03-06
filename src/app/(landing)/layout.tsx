@@ -28,9 +28,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <section className="flex items-center justify-center">
-            <Navbar />
-            <main className="flex w-full flex-col overflow-y-auto">
+          <section className="grid grid-cols-1 md:grid-cols-7">
+            <Navbar className="sticky top-0 bottom-0 left-0 col-span-1" />
+            <main className="col-span-1 flex w-full flex-col overflow-y-auto md:col-span-6">
               {children}
             </main>
           </section>
