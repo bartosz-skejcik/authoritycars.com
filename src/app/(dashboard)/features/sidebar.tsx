@@ -1,6 +1,12 @@
 "use client";
 
-import { Home, Inbox, Settings } from "lucide-react";
+import {
+  ChevronRightIcon,
+  FileClock,
+  Home,
+  Inbox,
+  Settings,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -22,7 +28,6 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
 // Menu items.
@@ -36,6 +41,11 @@ const items = [
     title: "Submissions",
     url: "/dashboard/submissions",
     icon: Inbox,
+  },
+  {
+    title: "Activity",
+    url: "/dashboard/activity",
+    icon: FileClock,
   },
   {
     title: "Settings",
@@ -100,7 +110,9 @@ export function AppHeader() {
                   {part}
                 </BreadcrumbLink>
               )}
-              {index != parts.length - 1 && <BreadcrumbSeparator />}
+              {index != parts.length - 1 && (
+                <ChevronRightIcon size={16} className="pl-0.5" />
+              )}
             </BreadcrumbItem>
           ))}
         </BreadcrumbList>

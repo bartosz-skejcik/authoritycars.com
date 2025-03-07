@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -36,7 +37,7 @@ export default function Avatar({
     }
 
     if (url) downloadImage(url);
-  }, [url, supabase]);
+  }, [url]);
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
     event,

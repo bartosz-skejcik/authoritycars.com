@@ -63,27 +63,6 @@ export type Database = {
           },
         ]
       }
-      cms: {
-        Row: {
-          created_at: string
-          id: number
-          key: string
-          value: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          key: string
-          value: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          key?: string
-          value?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -168,6 +147,7 @@ export type Database = {
           id: number
           name: string
           phone: string
+          ref: string | null
           status_id: number | null
           vehicle_type: string
         }
@@ -179,6 +159,7 @@ export type Database = {
           id?: number
           name: string
           phone: string
+          ref?: string | null
           status_id?: number | null
           vehicle_type: string
         }
@@ -190,6 +171,7 @@ export type Database = {
           id?: number
           name?: string
           phone?: string
+          ref?: string | null
           status_id?: number | null
           vehicle_type?: string
         }
@@ -233,7 +215,12 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      referrers: {
+        Row: {
+          ref: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

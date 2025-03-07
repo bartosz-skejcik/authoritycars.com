@@ -68,9 +68,8 @@ export function Faq() {
     <Accordion type="single" collapsible className="w-full">
       {questions.map((question, idx) => (
         <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 * idx }}
+          initial={{ opacity: 0, x: -200 }}
+          whileInView={{ opacity: 1, x: 0 }}
           key={question.question}
         >
           <AccordionItem value={`item-${idx}`} className="group">

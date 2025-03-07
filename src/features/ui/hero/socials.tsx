@@ -33,7 +33,7 @@ type Props = {
 
 function Socials({ variant = "default", size = "default" }: Props) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       {socials.map((social, idx) => (
         <motion.a
           initial={{ y: 500, opacity: 0 }}

@@ -64,6 +64,18 @@ export async function getStatuses() {
   return data || [];
 }
 
+export async function getDistinctReferrers() {
+  const supabase = await createClient();
+
+  try {
+    const { data, error } = await supabase.from("referrers").select("*");
+
+    return { success: !error, data, error };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
 export async function createStatus(status: TablesInsert<"statuses">) {
   const supabase = await createClient();
 

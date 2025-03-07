@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ThemeToggle } from "@/features/ui/theme-toggle";
 import Link from "next/link";
 import ProfileDropdown from "./profile-dropdown";
 import Socials from "../ui/hero/socials";
@@ -7,10 +6,10 @@ import NavbarItems from "./navbar-items";
 import { cn } from "@/lib/utils";
 
 const links = [
-  {
-    name: "Opinie klientów",
-    href: "/#opinie",
-  },
+  //{
+  //  name: "Opinie klientów",
+  //  href: "/#opinie",
+  //},
   {
     name: "Zostań partnerem",
     href: "/#partner",
@@ -46,10 +45,7 @@ function Navbar({ className }: { className?: string }) {
       <NavbarItems links={links} />
       <div className="flex w-full flex-col items-center justify-center gap-12">
         <Socials variant="accent" size="sm" />
-        <div className="flex w-full gap-2">
-          <ProfileDropdown />
-          <ThemeToggle />
-        </div>
+        <ProfileDropdown />
       </div>
     </nav>
   );

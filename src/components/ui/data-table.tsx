@@ -1,16 +1,19 @@
+// File: components/ui/data-table.tsx
 "use client";
 
+import * as React from "react";
 import {
   ColumnDef,
+  ColumnFiltersState,
+  SortingState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  SortingState,
-  getSortedRowModel,
-  ColumnFiltersState,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
+
 import {
   Table,
   TableBody,
@@ -19,15 +22,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Input } from "./input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchColumn?: string;
   searchPlaceholder?: string;
+  searchClassName?: string;
+  extraComponents?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -35,19 +39,23 @@ export function DataTable<TData, TValue>({
   data,
   searchColumn,
   searchPlaceholder = "Search...",
+  searchClassName = "",
+  extraComponents,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -55,9 +63,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="w-full">
+    <div>
       {searchColumn && (
-        <div className="flex items-center py-4">
+        <div className="grid grid-cols-3 gap-4 py-4">
           <Input
             placeholder={searchPlaceholder}
             value={
@@ -66,8 +74,9 @@ export function DataTable<TData, TValue>({
             onChange={(event) =>
               table.getColumn(searchColumn)?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className={`${searchClassName}`}
           />
+          {extraComponents}
         </div>
       )}
       <div className="rounded-md border">
@@ -120,9 +129,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="text-muted-foreground text-sm">
-          {table.getFilteredRowModel().rows.length} total rows
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredRowModel().flatRows.length} of {table.getRowCount()}{" "}
+          result(s)
         </div>
         <div className="space-x-2">
           <Button

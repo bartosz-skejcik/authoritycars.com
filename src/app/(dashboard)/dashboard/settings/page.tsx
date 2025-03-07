@@ -6,6 +6,7 @@ import { VerticalTabs } from "@/components/ui/vertical-tabs";
 import { getTags, getStatuses } from "@/utils/services/data-service";
 import { useState, useEffect } from "react";
 import { Tables } from "@/types/database.types";
+import Link from "next/link";
 
 export default function SettingsPage() {
   const [tags, setTags] = useState<Tables<"tags">[]>([]);
@@ -43,7 +44,12 @@ export default function SettingsPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground">
-          Manage your tags, statuses, and dashboard preferences.
+          Manage your tags, statuses, and dashboard preferences. If you are
+          looking for Account settings, please visit{" "}
+          <Link href="/dashboard/account" className="text-red-500">
+            your profile
+          </Link>
+          .
         </p>
       </div>
 
