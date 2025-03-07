@@ -61,11 +61,16 @@ type ActivityLog = {
   id: number;
   timestamp: string;
   action: string;
-  user_id: string;
+  user_id: string | null;
   entity_id?: string;
   entity_type?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   old_values?: Record<string, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new_values?: Record<string, any>;
+  submitter_name?: string;
+  ip_address?: string;
+  user_agent?: string;
   profiles?: {
     id: string;
     full_name: string | null;
@@ -105,7 +110,6 @@ function ActivityPage() {
   const [actionFilter, setActionFilter] = useState<string>("");
   const [userFilter, setUserFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<string>("");
-  const [selectedLog, setSelectedLog] = useState<ActivityLog | null>(null);
   const [uniqueUsers, setUniqueUsers] = useState<
     { id: string; name: string | null }[]
   >([]);
@@ -236,7 +240,7 @@ function ActivityPage() {
     const maxPagesToShow = 5;
 
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
     if (endPage - startPage + 1 < maxPagesToShow) {
       startPage = Math.max(1, endPage - maxPagesToShow + 1);
@@ -313,7 +317,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger>
                   <SelectValue placeholder="All Actions" />
                 </SelectTrigger>
                 <SelectContent>
@@ -338,7 +342,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger>
                   <SelectValue placeholder="All Users" />
                 </SelectTrigger>
                 <SelectContent>
@@ -363,7 +367,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger>
                   <SelectValue placeholder="All Time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -392,11 +396,11 @@ function ActivityPage() {
       </Card>
 
       {/* Activity Log Table */}
-      <Card className="py-0">
+      <Card>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b">
+              <tr className="bg-muted/40 border-b">
                 <th className="px-4 py-3 text-left font-medium">User</th>
                 <th className="px-4 py-3 text-left font-medium">Action</th>
                 <th className="px-4 py-3 text-left font-medium">Date & Time</th>
@@ -470,14 +474,23 @@ function ActivityPage() {
                         <Avatar className="h-8 w-8">
                           <AvatarImage
                             src={log.profiles?.avatar_url || ""}
-                            alt={log.profiles?.full_name || ""}
+                            alt={
+                              log.profiles?.full_name ||
+                              log.submitter_name ||
+                              ""
+                            }
                           />
                           <AvatarFallback>
                             {(log.profiles?.full_name ||
+                              log.submitter_name ||
                               "User")[0].toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
-                        <span>{log.profiles?.full_name || "Unknown User"}</span>
+                        <span>
+                          {log.profiles?.full_name ||
+                            log.submitter_name ||
+                            "Unknown User"}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -511,7 +524,6 @@ function ActivityPage() {
                             variant="ghost"
                             size="icon"
                             className="rounded-full"
-                            onClick={() => setSelectedLog(log)}
                           >
                             <Info className="h-4 w-4" />
                           </Button>
@@ -529,20 +541,38 @@ function ActivityPage() {
                               <Avatar className="h-10 w-10">
                                 <AvatarImage
                                   src={log.profiles?.avatar_url || ""}
-                                  alt={log.profiles?.full_name || ""}
+                                  alt={
+                                    log.profiles?.full_name ||
+                                    log.submitter_name ||
+                                    ""
+                                  }
                                 />
                                 <AvatarFallback>
                                   {(log.profiles?.full_name ||
+                                    log.submitter_name ||
                                     "User")[0].toUpperCase()}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
                                 <p className="font-medium">
-                                  {log.profiles?.full_name || "Unknown User"}
+                                  {log.profiles?.full_name ||
+                                    log.submitter_name ||
+                                    "Unknown User"}
                                 </p>
-                                <p className="text-muted-foreground text-sm">
-                                  User ID: {log.user_id}
-                                </p>
+                                {log.user_id ? (
+                                  <p className="text-muted-foreground text-sm">
+                                    User ID: {log.user_id}
+                                  </p>
+                                ) : log.ip_address ? (
+                                  <p className="text-muted-foreground text-sm">
+                                    Public submission from IP:{" "}
+                                    {log.ip_address.split(",")[0]}
+                                  </p>
+                                ) : (
+                                  <p className="text-muted-foreground text-sm">
+                                    Public submission
+                                  </p>
+                                )}
                               </div>
                             </div>
 

@@ -19,15 +19,7 @@ async function ProfileDropdown() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return (
-      <Link href="/login" className="w-full">
-        <Button variant="link" className="w-full cursor-pointer">
-          Login
-        </Button>
-      </Link>
-    );
-  }
+  if (!user) return null;
 
   const profile = await getProfile(user.id);
 
@@ -71,7 +63,9 @@ async function ProfileDropdown() {
         <DropdownMenuItem asChild>
           <Link href="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/auth/signout">Logout</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
