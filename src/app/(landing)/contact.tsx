@@ -35,7 +35,7 @@ function Contact() {
               href="tel:+48881570596"
               className="text-3xl font-bold transition-colors hover:text-orange-400 md:text-4xl"
             >
-              +48 881 57 05 96
+              +48 573 905 901
             </motion.a>
           </div>
 
