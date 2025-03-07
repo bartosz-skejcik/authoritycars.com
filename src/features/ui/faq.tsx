@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
 import { motion } from "motion/react";
 
 const questions = [
@@ -68,19 +67,24 @@ export function Faq() {
     <Accordion type="single" collapsible className="w-full">
       {questions.map((question, idx) => (
         <motion.div
-          initial={{ opacity: 0, x: -200 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: idx * 0.1 }}
           key={question.question}
+          className="overflow-hidden"
         >
           <AccordionItem value={`item-${idx}`} className="group">
-            <AccordionTrigger className="text-medium px-1.5 text-lg group-hover:bg-orange-400 group-hover:text-orange-950">
+            <AccordionTrigger className="px-2 py-4 text-left text-sm font-medium transition-all duration-200 ease-in-out group-hover:bg-orange-400 group-hover:text-orange-950 sm:text-base md:text-lg">
               {question.question}
             </AccordionTrigger>
-            <AccordionContent className="py-5 text-lg">
-              {question.answer}
+            <AccordionContent className="px-2 py-4 text-sm sm:text-base">
+              {question.answer.split("\n").map((line, index) => (
+                <p key={index} className="mb-2">
+                  {line}
+                </p>
+              ))}
             </AccordionContent>
           </AccordionItem>
-          <Separator />
         </motion.div>
       ))}
     </Accordion>

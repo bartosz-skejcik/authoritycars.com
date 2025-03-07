@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <Hero />
       <Partners />
-      <section className="flex w-full flex-col items-start justify-start gap-4 px-14 pb-12 md:pb-24">
+      <section className="flex w-full flex-col items-start justify-start gap-4 px-4 pb-12 md:px-14 md:pb-24">
         <h1 className="text-3xl font-extrabold md:text-4xl">
           Popularne <span className="text-orange-400">pytania</span>
         </h1>

@@ -1,27 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-type Props = {
-  links: {
-    name: string;
-    href: string;
-  }[];
+type NavbarItemsProps = {
+  links: { name: string; href: string }[];
+  className?: string;
+  itemClassName?: string;
+  onClick?: () => void;
 };
 
-function NavbarItems({ links }: Props) {
+function NavbarItems({
+  links,
+  className,
+  itemClassName,
+  onClick,
+}: NavbarItemsProps) {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-start gap-3 overflow-hidden">
+    <ul className={cn("flex grow flex-col items-center gap-3", className)}>
       {links.map((link) => (
-        <Link
-          key={link.name}
-          href={link.href}
-          className="text-center text-lg transition-all duration-200 hover:text-orange-400"
-        >
-          {link.name}
-        </Link>
+        <li key={link.name}>
+          <Link
+            href={link.href}
+            className={cn(
+              "text-muted-foreground hover:text-foreground transition-colors",
+              itemClassName,
+            )}
+            onClick={onClick}
+          >
+            {link.name}
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 

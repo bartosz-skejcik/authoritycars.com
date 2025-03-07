@@ -76,10 +76,18 @@ export function SubmissionFilters({
     style: { backgroundColor: tag.hex, color: getContrastText(tag.hex) },
   }));
 
-  const referrerOptions: Option[] = referrers.map((ref) => ({
-    value: ref.ref ? ref.ref : "all",
-    label: ref.ref ? ref.ref.charAt(0).toUpperCase() + ref.ref.slice(1) : "All",
-  }));
+  // @ts-expect-error asdf
+  const referrerOptions: Option[] = referrers
+    .filter((ref) => {
+      return ref.ref !== null;
+    })
+    .map((ref) => {
+      return {
+        value: ref.ref,
+        // @ts-expect-error asdf
+        label: ref.ref.charAt(0).toUpperCase() + ref.ref.slice(1),
+      };
+    });
 
   return (
     <Card>

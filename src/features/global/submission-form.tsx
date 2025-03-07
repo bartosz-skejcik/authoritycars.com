@@ -85,7 +85,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
   }
 
   return (
-    <div className="w-full bg-black text-white">
+    <div className="w-full overflow-x-hidden bg-black text-white">
       {/* Application Specialist Section */}
       <section className="w-full px-4 py-16">
         <div className="container mx-auto max-w-6xl">

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 function Contact() {
   return (
-    <section className="relative w-full overflow-hidden px-4 py-16">
+    <section className="relative w-full overflow-x-hidden px-4 py-16">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-10">
         <span className="text-[20vw] font-bold text-gray-500">request</span>
       </div>

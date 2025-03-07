@@ -2,20 +2,20 @@ import Card from "./card";
 
 function Partners() {
   return (
-    <section className="h-screen px-4 py-16 text-white md:h-auto md:px-8">
+    <section className="min-h-screen px-4 py-16 text-white sm:px-6 md:px-8 lg:px-12">
       <div className="container mx-auto max-w-7xl">
         {/* Headings */}
-        <div id="partner" className="mb-12">
-          <h2 className="mb-2 text-xl font-bold text-orange-400 uppercase md:text-2xl">
+        <div id="partner" className="mb-8 sm:mb-12 lg:mb-16">
+          <h2 className="mb-2 text-lg font-bold text-orange-400 uppercase sm:text-xl md:text-2xl lg:text-3xl">
             do naszych partnerów
           </h2>
-          <h1 className="text-4xl font-bold tracking-tight uppercase md:text-6xl">
+          <h1 className="text-3xl font-bold tracking-tight uppercase sm:text-4xl md:text-5xl lg:text-6xl">
             dołącz już dziś!
           </h1>
         </div>
 
         {/* Image and CTA Grid */}
-        <div className="grid grid-cols-1 gap-6 pb-12 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 pb-12 sm:grid-cols-2 sm:gap-8 md:gap-10 lg:gap-12">
           {/* Left Column */}
           <Card
             title="chcę kupić auto"
