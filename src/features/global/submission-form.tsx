@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -25,6 +24,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import validator from "validator";
 import { motion } from "motion/react";
+import { useSubmissionForm } from "@/hooks/use-submission-form"; // Import the hook
 
 const models = ["Sedan", "Crossover", "Motocykl", "ATV", "Oversized"];
 
@@ -54,9 +54,14 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function SubmissionForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+interface SubmissionFormProps {
+  ref?: string;
+}
+
+export default function SubmissionForm({ ref }: SubmissionFormProps) {
+  // Use the submission form hook
+  const { isSubmitting, isSuccess, error, openStatusId, submitForm } =
+    useSubmissionForm(ref);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -69,21 +74,14 @@ export default function SubmissionForm() {
     },
   });
 
-  function onSubmit(data: FormValues) {
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      console.log(data);
-      setIsSubmitting(false);
-      setIsSuccess(true);
-
-      // Reset form after 3 seconds
+  async function onSubmit(data: FormValues) {
+    const success = await submitForm(data);
+    if (success) {
+      // Reset form after successful submission
       setTimeout(() => {
-        setIsSuccess(false);
         form.reset();
       }, 3000);
-    }, 1500);
+    }
   }
 
   return (
@@ -283,19 +281,22 @@ export default function SubmissionForm() {
                 initial={{ x: 100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="flex justify-end"
+                className="flex w-full flex-col space-y-2"
               >
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || isSuccess}
-                  className={`text-foreground w-full border border-orange-400 bg-transparent px-8 py-5 transition-colors hover:bg-orange-400 md:w-auto ${isSuccess ? "border-green-600 bg-green-600 text-white" : ""}`}
-                >
-                  {isSubmitting
-                    ? "Sending..."
-                    : isSuccess
-                      ? "Sent Successfully"
-                      : "Send"}
-                </Button>
+                {error && <p className="text-sm text-red-500">{error}</p>}
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || isSuccess || !openStatusId}
+                    className={`text-foreground w-full border border-orange-400 bg-transparent px-8 py-5 transition-colors hover:bg-orange-400 md:w-auto ${isSuccess ? "border-green-600 bg-green-600 text-white" : ""}`}
+                  >
+                    {isSubmitting
+                      ? "Wysyłanie..."
+                      : isSuccess
+                        ? "Wysłano Pomyślnie"
+                        : "Wyślij"}
+                  </Button>
+                </div>
               </motion.div>
             </form>
           </Form>
