@@ -6,20 +6,19 @@ import Link from "next/link";
 type Props = {
   title: string;
   image: string;
-  image_hover: string;
   hoverText: string;
 };
 
-function Card({ title, image, image_hover, hoverText }: Props) {
+function Card({ title, image, hoverText }: Props) {
   return (
     <div className="group relative col-span-1">
-      <div className="absolute inset-0 flex opacity-0 transition-all duration-300 group-hover:opacity-100">
+      <div className="absolute inset-0 flex overflow-hidden opacity-0 transition-all duration-300 group-hover:opacity-100">
         <Image
-          src={image_hover}
+          src={image}
           alt={title}
           height={512}
           width={512}
-          className="w-full object-cover"
+          className="w-full scale-150 object-cover blur-2xl"
         />
         <div className="absolute inset-0 flex flex-col items-start justify-start px-6 py-12">
           <h2 className="text-2xl font-bold uppercase lg:text-4xl">{title}</h2>

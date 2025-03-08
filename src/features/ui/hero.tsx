@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Socials from "./hero/socials";
 import { useEffect, useState } from "react";
@@ -33,19 +34,13 @@ function Hero() {
 
   return (
     <header className="relative isolate min-h-screen w-full overflow-hidden">
-      <video
+      <Image
         className="absolute inset-0 h-full w-full object-cover opacity-25"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source
-          src="https://autodia.pl/skins/html/img/video_new_2.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+        src="/road.png"
+        alt="road"
+        width={1920}
+        height={1080}
+      />
 
       <main className="absolute inset-0 z-10 flex h-full w-full flex-col justify-between p-6 sm:p-12 md:grid md:grid-cols-2 md:items-center lg:p-16">
         <div className="flex h-full flex-col items-start justify-between">
