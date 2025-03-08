@@ -20,14 +20,12 @@ function Partners() {
           <Card
             title="chcę kupić auto"
             image="/1.jpg"
-            image_hover="/1_hover.jpg"
             hoverText="Chcesz kupić samochód i nie chcesz przepłacać? Kup samochód z oszczędnością do 40% i przejrzystą historią. Nasi eksperci wybiorą najlepszą opcję dla Twojego budżetu!"
           />
           {/* Right Column */}
           <Card
             title="zostań partnerem"
             image="/2.jpg"
-            image_hover="/2_hover.jpg"
             hoverText="Rozpocznij swój biznes z nami! Zapewniamy najlepsze warunki partnerstwa, wsparcia, konsultacji i szkoleń! Authoritycars jest Twoim niezawodnym partnerem biznesowym!"
           />
         </div>
