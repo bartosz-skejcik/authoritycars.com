@@ -319,7 +319,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Actions" />
                 </SelectTrigger>
                 <SelectContent>
@@ -344,7 +344,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Users" />
                 </SelectTrigger>
                 <SelectContent>
@@ -369,7 +369,7 @@ function ActivityPage() {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Time" />
                 </SelectTrigger>
                 <SelectContent>

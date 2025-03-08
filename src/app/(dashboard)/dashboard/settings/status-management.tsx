@@ -137,7 +137,9 @@ export function StatusManagement({ initialStatuses }: StatusManagementProps) {
               <h3 className="mb-4 text-lg font-medium">Create New Status</h3>
               <div className="grid gap-4">
                 <div>
-                  <Label htmlFor="new-status-name">Name</Label>
+                  <Label htmlFor="new-status-name" className="pb-2">
+                    Name
+                  </Label>
                   <Input
                     id="new-status-name"
                     value={newStatus.name}

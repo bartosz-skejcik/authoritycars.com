@@ -135,7 +135,9 @@ export function TagManagement({ initialTags }: TagManagementProps) {
               <div className="grid gap-4">
                 <div className="grid grid-cols-3 gap-4">
                   <div className="col-span-2">
-                    <Label htmlFor="new-tag-name">Name</Label>
+                    <Label htmlFor="new-tag-name" className="pb-2">
+                      Name
+                    </Label>
                     <Input
                       id="new-tag-name"
                       value={newTag.name}
@@ -146,7 +148,9 @@ export function TagManagement({ initialTags }: TagManagementProps) {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="new-tag-color">Color</Label>
+                    <Label htmlFor="new-tag-color" className="pb-2">
+                      Color
+                    </Label>
                     <div className="flex">
                       <Input
                         id="new-tag-color"
