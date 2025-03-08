@@ -112,20 +112,30 @@ export default function AccountForm({ user }: { user: User | null }) {
     getProfile();
   }, [getProfile]);
 
-  async function updateProfile(data: ProfileFormValues) {
+  // This function now takes an optional avatarUrl parameter
+  async function updateProfile(data: ProfileFormValues, newAvatarUrl?: string) {
     try {
       setUpdating(true);
+
+      // Use the provided avatarUrl if available, otherwise use the state value
+      const updatedAvatarUrl =
+        newAvatarUrl !== undefined ? newAvatarUrl : avatar_url;
 
       const { error } = await supabase.from("profiles").upsert({
         id: user?.id as string,
         full_name: data.fullname,
         username: data.username,
         website: data.website,
-        avatar_url,
+        avatar_url: updatedAvatarUrl,
         updated_at: new Date().toISOString(),
       });
 
       if (error) throw error;
+
+      // If we just updated the avatar, make sure the state reflects that
+      if (newAvatarUrl !== undefined) {
+        setAvatarUrl(newAvatarUrl);
+      }
 
       toast("Success", {
         description: "Your profile has been updated",
@@ -198,14 +208,14 @@ export default function AccountForm({ user }: { user: User | null }) {
                 url={avatar_url}
                 size={128}
                 onUpload={(url) => {
-                  setAvatarUrl(url);
-                  updateProfile(profileForm.getValues());
+                  // Pass the new avatar URL directly to updateProfile
+                  updateProfile(profileForm.getValues(), url);
                 }}
               />
             </div>
 
             <form
-              onSubmit={profileForm.handleSubmit(updateProfile)}
+              onSubmit={profileForm.handleSubmit((data) => updateProfile(data))}
               className="space-y-4"
             >
               <div className="space-y-1">

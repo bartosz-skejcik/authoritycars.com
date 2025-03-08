@@ -1,9 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { RegisterForm } from "./form";
 
-export default function RegisterPage() {
+// Create a separate component that uses useSearchParams
+function RegisterFormWithParams() {
   const searchParams = useSearchParams();
 
   const message = searchParams.get("message");
@@ -12,16 +14,24 @@ export default function RegisterPage() {
   const confirmPassword = searchParams.get("confirmPassword");
 
   return (
+    <RegisterForm
+      message={message}
+      state={{
+        email,
+        password,
+        confirmPassword,
+      }}
+    />
+  );
+}
+
+export default function RegisterPage() {
+  return (
     <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
-        <RegisterForm
-          message={message}
-          state={{
-            email,
-            password,
-            confirmPassword,
-          }}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RegisterFormWithParams />
+        </Suspense>
       </div>
     </div>
   );

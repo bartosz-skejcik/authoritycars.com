@@ -7,10 +7,15 @@ import { Label } from "@/components/ui/label";
 import { login } from "@/app/(auth)/actions";
 import Link from "next/link";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+interface Props extends React.ComponentProps<"div"> {
+  message: string | null;
+  state: {
+    email: string | null;
+    password: string | null;
+  };
+}
+
+export function LoginForm({ className, message, state, ...props }: Props) {
   return (
     <div
       className={cn("mx-auto flex max-w-md flex-col gap-6", className)}
@@ -32,6 +37,7 @@ export function LoginForm({
                   id="email"
                   name="email"
                   type="email"
+                  defaultValue={state.email || ""}
                   placeholder="m@example.com"
                   required
                 />
@@ -40,8 +46,19 @@ export function LoginForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  defaultValue={state.password || ""}
+                />
               </div>
+              {message && (
+                <span className="-my-4 w-full text-center text-sm text-red-500">
+                  {message}
+                </span>
+              )}
               <Button formAction={login} className="w-full">
                 Login
               </Button>

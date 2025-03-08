@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function Avatar({
   uid,
@@ -51,7 +52,7 @@ export default function Avatar({
 
       const file = event.target.files[0];
       const fileExt = file.name.split(".").pop();
-      const filePath = `${uid}-${Math.random()}.${fileExt}`;
+      const filePath = `${uid}/${Math.random()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from("avatars")
@@ -61,10 +62,13 @@ export default function Avatar({
         throw uploadError;
       }
 
+      // Call onUpload with the new file path
       onUpload(filePath);
+
+      toast.success("Avatar uploaded successfully!");
     } catch (error) {
-      console.log(error);
-      alert("Error uploading avatar!");
+      console.error(error);
+      toast.error("Error uploading avatar!");
     } finally {
       setUploading(false);
     }

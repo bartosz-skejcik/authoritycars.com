@@ -560,6 +560,8 @@ export type AccountInsert = {
 export async function createAccount(account: AccountInsert) {
   const supabase = await createAdminClient();
 
+  console.log("Creating account", account);
+
   try {
     const {
       data: { user },
@@ -567,10 +569,12 @@ export async function createAccount(account: AccountInsert) {
     } = await supabase.auth.admin.createUser({
       email: account.email,
       password: account.password,
+      email_confirm: true,
     });
 
     if (error || !user) {
-      return { success: false, error };
+      console.error("createAccount -> createUser error:", error);
+      return { success: false, error, data: { user } };
     }
 
     const { error: profileError } = await supabase
@@ -589,6 +593,7 @@ export async function createAccount(account: AccountInsert) {
 
     return { success: profileError !== null, data, error: profileError };
   } catch (error) {
+    console.error("createAccount -> catch error:", error);
     return { success: false, error };
   }
 }

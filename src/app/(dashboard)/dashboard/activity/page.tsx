@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar as AvatarComponent } from "./avatar";
 import { useCallback, useEffect, useState } from "react";
 import { format, formatDistanceToNow } from "date-fns";
 import {
@@ -44,7 +45,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -196,6 +197,7 @@ function ActivityPage() {
       const startIdx = (currentPage - 1) * PAGE_SIZE;
       const paginatedLogs = filteredLogs.slice(startIdx, startIdx + PAGE_SIZE);
 
+      // @ts-expect-error asdf
       setLogs(paginatedLogs);
 
       // Extract unique users and actions for filters
@@ -396,7 +398,7 @@ function ActivityPage() {
       </Card>
 
       {/* Activity Log Table */}
-      <Card>
+      <Card className="overflow-hidden p-0">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -472,8 +474,8 @@ function ActivityPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center space-x-3">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage
-                            src={log.profiles?.avatar_url || ""}
+                          <AvatarComponent
+                            avatar_url={log.profiles?.avatar_url}
                             alt={
                               log.profiles?.full_name ||
                               log.submitter_name ||
@@ -539,8 +541,8 @@ function ActivityPage() {
                           <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                               <Avatar className="h-10 w-10">
-                                <AvatarImage
-                                  src={log.profiles?.avatar_url || ""}
+                                <AvatarComponent
+                                  avatar_url={log.profiles?.avatar_url}
                                   alt={
                                     log.profiles?.full_name ||
                                     log.submitter_name ||
@@ -614,7 +616,7 @@ function ActivityPage() {
                                   <p className="mb-1 text-sm font-medium">
                                     Previous Values
                                   </p>
-                                  <pre className="bg-muted/50 overflow-auto rounded-md p-2 text-xs">
+                                  <pre className="bg-muted/50 max-w-[29rem] overflow-x-auto rounded-md p-2 text-xs">
                                     {JSON.stringify(log.old_values, null, 2)}
                                   </pre>
                                 </div>
@@ -626,7 +628,7 @@ function ActivityPage() {
                                   <p className="mb-1 text-sm font-medium">
                                     New Values
                                   </p>
-                                  <pre className="bg-muted/50 overflow-auto rounded-md p-2 text-xs">
+                                  <pre className="bg-muted/50 max-w-[29rem] overflow-auto rounded-md p-2 text-xs">
                                     {JSON.stringify(log.new_values, null, 2)}
                                   </pre>
                                 </div>
