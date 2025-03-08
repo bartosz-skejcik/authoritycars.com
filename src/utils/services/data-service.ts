@@ -1,18 +1,36 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient as createServerSideClient } from "@/utils/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { Tables, TablesInsert } from "@/types/database.types";
+
+async function createAdminClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseKey = process.env.SUPABASE_ADMIN_KEY!;
+
+  return createClient(
+    // Make sure these are only accessible server-side
+    supabaseUrl,
+    supabaseKey,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    },
+  );
+}
 
 // Tag management
 export async function getTags() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   const { data } = await supabase.from("tags").select().order("name");
   return data || [];
 }
 
 export async function createTag(tag: TablesInsert<"tags">) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -30,7 +48,7 @@ export async function updateTag(
   id: number,
   tag: Partial<TablesInsert<"tags">>,
 ) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -46,7 +64,7 @@ export async function updateTag(
 }
 
 export async function deleteTag(id: number) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { error } = await supabase.from("tags").delete().eq("id", id);
@@ -58,14 +76,14 @@ export async function deleteTag(id: number) {
 
 // Status management
 export async function getStatuses() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   const { data } = await supabase.from("statuses").select().order("name");
   return data || [];
 }
 
 export async function getDistinctReferrers() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase.from("referrers").select("*");
@@ -77,7 +95,7 @@ export async function getDistinctReferrers() {
 }
 
 export async function createStatus(status: TablesInsert<"statuses">) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -95,7 +113,7 @@ export async function updateStatus(
   id: number,
   status: Partial<TablesInsert<"statuses">>,
 ) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -111,7 +129,7 @@ export async function updateStatus(
 }
 
 export async function deleteStatus(id: number) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { error } = await supabase.from("statuses").delete().eq("id", id);
@@ -123,7 +141,7 @@ export async function deleteStatus(id: number) {
 
 // Audit log management
 export async function getAuditLogs(limit = 10) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   let query = supabase
     .from("audit_logs")
@@ -148,7 +166,7 @@ export async function getAuditLogs(limit = 10) {
 }
 
 export async function createAuditLog(action: string) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
   const { data: user } = await supabase.auth.getUser();
 
   if (!user.user) {
@@ -175,7 +193,7 @@ export async function getSubmissions(
   page = 0,
   pageSize = 10,
 ) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   let query = supabase
     .from("submissions")
@@ -264,7 +282,7 @@ export async function getSubmissions(
 }
 
 export async function getSubmissionById(id: number) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   const { data, error } = await supabase
     .from("submissions")
@@ -315,7 +333,7 @@ export async function updateSubmission(
   id: number,
   submission: Partial<Tables<"submissions">>,
 ) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -331,7 +349,7 @@ export async function updateSubmission(
 }
 
 export async function updateSubmissionTags(id: number, tagIds: number[]) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     // First, delete all existing submission_tags for this submission
@@ -354,7 +372,7 @@ export async function updateSubmissionTags(id: number, tagIds: number[]) {
 
 // Profile management
 export async function getProfiles() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   const { data } = await supabase.from("profiles").select().order("full_name");
   return data || [];
@@ -364,7 +382,7 @@ export async function updateProfile(
   userId: string,
   update: { full_name?: string; avatar_url?: string },
 ) {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const { data, error } = await supabase
@@ -380,7 +398,7 @@ export async function updateProfile(
 }
 
 export async function getCurrentUser() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
 
   try {
     const {
@@ -404,7 +422,7 @@ export async function getCurrentUser() {
 
 // Dashboard statistics
 export async function getSubmissionCountsByStatus() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
   const { data: user } = await supabase.auth.getUser();
 
   if (!user.user) {
@@ -441,7 +459,7 @@ export async function getSubmissionCountsByStatus() {
 }
 
 export async function getSubmissionsStatusChange() {
-  const supabase = await createClient();
+  const supabase = await createServerSideClient();
   const { data: user } = await supabase.auth.getUser();
 
   if (!user.user) {
@@ -522,4 +540,134 @@ export async function getSubmissionsStatusChange() {
       increased: percentChange >= 0,
     };
   });
+}
+
+// Account management
+export async function getAllAccounts() {
+  const supabase = await createServerSideClient();
+
+  const { data } = await supabase.from("profiles").select("*");
+
+  return data || [];
+}
+
+export type AccountInsert = {
+  email: string;
+  full_name: string;
+  password: string;
+};
+
+export async function createAccount(account: AccountInsert) {
+  const supabase = await createAdminClient();
+
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.admin.createUser({
+      email: account.email,
+      password: account.password,
+    });
+
+    if (error || !user) {
+      return { success: false, error };
+    }
+
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .upsert({
+        id: user.id,
+        full_name: account.full_name,
+      })
+      .eq("id", user.id);
+
+    const { data } = await supabase
+      .from("profiles")
+      .select()
+      .eq("id", user.id)
+      .single();
+
+    return { success: profileError !== null, data, error: profileError };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
+export async function removeAccount(id: string) {
+  const supabase = await createAdminClient();
+
+  try {
+    const { error } = await supabase.auth.admin.deleteUser(id);
+
+    return { success: !error, error };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
+// Contact information management
+export async function getContactInfo() {
+  const supabase = await createServerSideClient();
+
+  try {
+    // Always fetch the first record since we'll only have one set of contact info
+    const { data, error } = await supabase
+      .from("contact_info")
+      .select("*")
+      .order("id")
+      .limit(1)
+      .single();
+
+    return { success: !error, data, error };
+  } catch (error) {
+    return { success: false, error, data: null };
+  }
+}
+
+export async function updateContactInfo(contactInfo: {
+  email?: string;
+  phone?: string;
+  telegram_link?: string;
+  instagram_link?: string;
+  facebook_link?: string;
+}) {
+  const supabase = await createServerSideClient();
+
+  try {
+    // First check if we have any contact info entries
+    const { data: existingData } = await supabase
+      .from("contact_info")
+      .select("id")
+      .limit(1);
+
+    let operation;
+    if (existingData && existingData.length > 0) {
+      // Update existing record
+      operation = supabase
+        .from("contact_info")
+        .update({
+          ...contactInfo,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existingData[0].id)
+        .select()
+        .single();
+    } else {
+      // Create new record
+      operation = supabase
+        .from("contact_info")
+        .insert([{ ...contactInfo }])
+        .select()
+        .single();
+    }
+
+    const { data, error } = await operation;
+
+    // Create an audit log entry
+    await createAuditLog("Updated contact information");
+
+    return { success: !error, data, error };
+  } catch (error) {
+    return { success: false, error };
+  }
 }

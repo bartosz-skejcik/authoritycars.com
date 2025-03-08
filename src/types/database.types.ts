@@ -37,21 +37,42 @@ export type Database = {
       audit_logs: {
         Row: {
           action: string
+          entity_id: string | null
+          entity_type: string | null
           id: number
+          ip_address: string | null
+          new_values: Json | null
+          old_values: Json | null
+          submitter_name: string | null
           timestamp: string
-          user_id: string
+          user_agent: string | null
+          user_id: string | null
         }
         Insert: {
           action: string
+          entity_id?: string | null
+          entity_type?: string | null
           id?: number
+          ip_address?: string | null
+          new_values?: Json | null
+          old_values?: Json | null
+          submitter_name?: string | null
           timestamp?: string
-          user_id: string
+          user_agent?: string | null
+          user_id?: string | null
         }
         Update: {
           action?: string
+          entity_id?: string | null
+          entity_type?: string | null
           id?: number
+          ip_address?: string | null
+          new_values?: Json | null
+          old_values?: Json | null
+          submitter_name?: string | null
           timestamp?: string
-          user_id?: string
+          user_agent?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -62,6 +83,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      contact_info: {
+        Row: {
+          created_at: string
+          email: string | null
+          facebook_link: string | null
+          id: number
+          instagram_link: string | null
+          phone: string | null
+          telegram_link: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          facebook_link?: string | null
+          id?: number
+          instagram_link?: string | null
+          phone?: string | null
+          telegram_link?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          facebook_link?: string | null
+          id?: number
+          instagram_link?: string | null
+          phone?: string | null
+          telegram_link?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -223,7 +277,34 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      create_audit_log: {
+        Args: {
+          action: string
+          entity_id?: string
+          entity_type?: string
+          old_values?: Json
+          new_values?: Json
+        }
+        Returns: undefined
+      }
+      get_auth_user_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      log_public_submission: {
+        Args: {
+          submission_id: number
+          name: string
+          phone: string
+          vehicle_type: string
+          budget_from: number
+          budget_to: number
+          ref?: string
+          ip_address?: string
+          user_agent?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

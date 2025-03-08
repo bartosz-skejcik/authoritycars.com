@@ -27,13 +27,13 @@ export function VerticalTabs({ tabs, defaultValue }: VerticalTabsProps) {
           <TabsTrigger
             key={tab.id}
             value={`tab-${tab.id}`}
-            className="data-[state=active]:bg-muted text-md w-full justify-start data-[state=active]:shadow-none"
+            className="data-[state=active]:bg-muted text-md w-full cursor-pointer justify-start data-[state=active]:shadow-none"
           >
             {tab.title}
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="-mt-4 grow">
+      <div className="-mt-13 grow">
         {tabs.map((tab) => (
           <TabsContent key={tab.id} value={`tab-${tab.id}`}>
             {tab.content}
