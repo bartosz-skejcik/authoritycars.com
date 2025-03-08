@@ -28,7 +28,7 @@ export function LoginForm({ className, message, state, ...props }: Props) {
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your Acme Inc account
+                  Login to your <em>Authoritycars</em> account
                 </p>
               </div>
               <div className="grid gap-2">
@@ -72,10 +72,6 @@ export function LoginForm({ className, message, state, ...props }: Props) {
           </form>
         </CardContent>
       </Card>
-      <div className="text-muted-foreground hover:[&_a]:text-primary text-center text-xs text-balance [&_a]:underline [&_a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
     </div>
   );
 }

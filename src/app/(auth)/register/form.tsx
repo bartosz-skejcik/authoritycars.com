@@ -27,9 +27,9 @@ export function RegisterForm({ className, message, state, ...props }: Props) {
           <form className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Welcome!</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your Acme Inc account
+                  Register your account on <em>Authoritycars.com</em>
                 </p>
               </div>
               <div className="grid gap-2">
@@ -73,12 +73,12 @@ export function RegisterForm({ className, message, state, ...props }: Props) {
                 </span>
               )}
               <Button formAction={signup} className="w-full">
-                Login
+                Register
               </Button>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/register" className="underline underline-offset-4">
-                  Sign up
+                Already have an account?{" "}
+                <Link href="/login" className="underline underline-offset-4">
+                  Log in
                 </Link>
               </div>
             </div>
