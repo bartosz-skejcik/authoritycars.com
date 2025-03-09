@@ -582,6 +582,7 @@ export async function createAccount(account: AccountInsert) {
       .upsert({
         id: user.id,
         full_name: account.full_name,
+        username: account.full_name.toLowerCase().replace(" ", "_"),
       })
       .eq("id", user.id);
 
