@@ -35,7 +35,7 @@ export interface ContactInfo {
   updated_at?: string;
   email: string | null;
   phone: string | null;
-  telegram_link: string | null;
+  whatsapp_link: string | null;
   instagram_link: string | null;
   facebook_link: string | null;
 }
@@ -85,7 +85,7 @@ export function ContactsManagement() {
         phone: contact.phone,
         facebook_link: contact.facebook_link,
         instagram_link: contact.instagram_link,
-        telegram_link: contact.telegram_link,
+        whatsapp_link: contact.whatsapp_link,
       });
     } else {
       resetForm();
@@ -126,7 +126,7 @@ export function ContactsManagement() {
       contact.phone ||
       contact.facebook_link ||
       contact.instagram_link ||
-      contact.telegram_link);
+      contact.whatsapp_link);
 
   // Function to filter out empty fields for display
 
@@ -249,17 +249,17 @@ export function ContactsManagement() {
               )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="telegram_link">Telegram</Label>
+              <Label htmlFor="whatsapp_link">Whatsapp</Label>
               <Input
-                id="telegram_link"
-                name="telegram_link"
+                id="whatsapp_link"
+                name="whatsapp_link"
                 placeholder="https://t.me/yourusername"
-                value={formData.telegram_link || ""}
+                value={formData.whatsapp_link || ""}
                 onChange={handleInputChange}
               />
-              {formErrors.telegram_link && (
+              {formErrors.whatsapp_link && (
                 <p className="text-destructive text-sm">
-                  {formErrors.telegram_link}
+                  {formErrors.whatsapp_link}
                 </p>
               )}
             </div>

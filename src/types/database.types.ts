@@ -92,8 +92,8 @@ export type Database = {
           id: number
           instagram_link: string | null
           phone: string | null
-          telegram_link: string | null
           updated_at: string
+          whatsapp_link: string | null
         }
         Insert: {
           created_at?: string
@@ -102,8 +102,8 @@ export type Database = {
           id?: number
           instagram_link?: string | null
           phone?: string | null
-          telegram_link?: string | null
           updated_at?: string
+          whatsapp_link?: string | null
         }
         Update: {
           created_at?: string
@@ -112,8 +112,8 @@ export type Database = {
           id?: number
           instagram_link?: string | null
           phone?: string | null
-          telegram_link?: string | null
           updated_at?: string
+          whatsapp_link?: string | null
         }
         Relationships: []
       }
@@ -290,6 +290,10 @@ export type Database = {
       get_auth_user_id: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
       log_public_submission: {
         Args: {

@@ -2,8 +2,27 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { ContactInfo } from "../(dashboard)/dashboard/settings/contacts-management";
+import { getContactInfo } from "@/utils/services/data-service";
 
 function Contact() {
+  const [contact, setContact] = useState<ContactInfo | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, success } = await getContactInfo();
+
+        if (success && data) {
+          setContact(data);
+        }
+      } catch (error) {
+        console.error("Failed to load contact information:", error);
+      }
+    })();
+  }, []);
+
   return (
     <section className="relative w-full overflow-x-hidden px-4 py-16">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-10">
@@ -32,10 +51,10 @@ function Contact() {
               initial={{ x: -100, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              href="tel:+48881570596"
+              href={`tel:${contact?.phone}`}
               className="text-3xl font-bold transition-colors hover:text-orange-400 md:text-4xl"
             >
-              +48 573 905 901
+              {contact?.phone}
             </motion.a>
           </div>
 
