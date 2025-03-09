@@ -1,30 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { RegisterForm } from "./form";
-
-// Create a separate component that uses useSearchParams
-function RegisterFormWithParams() {
-    const searchParams = useSearchParams();
-
-    const message = searchParams.get("message");
-    const email = searchParams.get("email");
-    const password = searchParams.get("password");
-    const confirmPassword = searchParams.get("confirmPassword");
-
-    return (
-        <RegisterForm
-            message={message}
-            state={{
-                email,
-                password,
-                confirmPassword,
-            }}
-        />
-    );
-}
 
 export default function RegisterPage() {
     const router = useRouter();
