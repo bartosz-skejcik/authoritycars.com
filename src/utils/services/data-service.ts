@@ -272,6 +272,7 @@ export async function getSubmissions(
                 data: data.filter((submission) =>
                     // @ts-expect-error asdf
                     submission.tags.some(
+                        // @ts-expect-error asdf
                         (tag) => tag.id === Number(filters.tag_id)
                     )
                 ),
