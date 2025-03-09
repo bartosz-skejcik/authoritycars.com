@@ -253,7 +253,7 @@ export function ContactsManagement() {
               <Input
                 id="whatsapp_link"
                 name="whatsapp_link"
-                placeholder="https://t.me/yourusername"
+                placeholder="https://wa.me/1234567890"
                 value={formData.whatsapp_link || ""}
                 onChange={handleInputChange}
               />
