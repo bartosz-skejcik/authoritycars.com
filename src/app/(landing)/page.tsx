@@ -3,6 +3,7 @@ import SubmissionForm from "@/features/global/submission-form";
 import { Faq } from "@/features/ui/faq";
 import Hero from "@/features/ui/hero";
 import Contact from "./contact";
+import Timeline from "./timeline";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         </h1>
         <Faq />
       </section>
+      <Timeline />
       <SubmissionForm />
       <Contact />
     </>

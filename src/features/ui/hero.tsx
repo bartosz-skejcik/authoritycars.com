@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Socials from "./hero/socials";
 import { useEffect, useState } from "react";
+import { FlipWords } from "./flip-words";
 
 const feats = [
   {
@@ -22,6 +23,12 @@ const feats = [
 
 function Hero() {
   const [isMobile, setIsMobile] = useState(false);
+
+  const words = [
+    "Najkorzystniejszy dobór auta",
+    "Gwarancja na cały zakres usług",
+    "Pracujemy na podstawie umowy",
+  ];
 
   useEffect(() => {
     const checkMobile = () => {
@@ -51,15 +58,17 @@ function Hero() {
               transition={{ delay: 0.5, duration: 0.5 }}
               className="text-3xl font-extrabold uppercase sm:text-4xl md:text-5xl lg:text-7xl"
             >
-              authoritycars.com
+              SAMOCHÓD MARZEŃ POD KLUCZ
             </motion.h1>
             <motion.p
               initial={{ x: -550 }}
               animate={{ x: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
-              className="text-base font-extrabold text-orange-400 sm:text-lg md:text-xl lg:text-2xl"
             >
-              KUP SAMOCHÓD Z AUKCJI ŚWIATOWYCH
+              <FlipWords
+                words={words}
+                className="text-base! font-extrabold text-orange-400! uppercase! sm:text-lg! md:text-xl! lg:text-2xl!"
+              />
             </motion.p>
           </div>
           <div className="mt-8 flex flex-col items-start justify-start gap-8 md:mt-0">
@@ -69,11 +78,9 @@ function Hero() {
               transition={{ delay: 0.7, duration: 0.5 }}
               className="border-l-4 border-orange-400 pl-4 text-sm sm:pl-6 sm:text-base md:text-lg lg:text-xl"
             >
-              USA, EUROPA, KANADA, KOREA I CHINY
+              Z KANADY, USA, EUROPY, KOREI I CHIN!
               <br />
-              OTRZYMAJĄ DO 40%
-              <br />
-              RÓŻNORODNOŚCI TWOJEGO RYNKU!
+              OSZCZĘDNOŚĆ OD 20% DO 50%!
             </motion.div>
             <Socials />
           </div>
