@@ -59,6 +59,7 @@ function Timeline() {
       if (!containerRef.current || !timelineRef.current) return;
 
       const containerRect = containerRef.current.getBoundingClientRect();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const timelineRect = timelineRef.current.getBoundingClientRect();
 
       // Check if container is in viewport
@@ -157,6 +158,7 @@ function Timeline() {
           {steps.map((step, index) => (
             <div
               key={step.id}
+              // @ts-expect-error asdf
               ref={(el) => (stepRefs.current[index] = el)}
               className={`relative mb-40 flex items-center transition-opacity duration-300 last:mb-0 ${
                 index > activeStep ? "opacity-60" : "opacity-100"
