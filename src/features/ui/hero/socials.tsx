@@ -14,17 +14,17 @@ import { getContactInfo } from "@/utils/services/data-service";
 const socialsTemplate = [
   {
     name: "facebook_link",
-    url: "https://facebook.com/username",
+    url: "#",
     icon: FacebookIcon,
   },
   {
     name: "instagram_link",
-    url: "https://instagram.com/username",
+    url: "#",
     icon: InstagramIcon,
   },
   {
     name: "whatsapp_link",
-    url: "https://wa.me/1234567890",
+    url: "#",
     icon: MessageCircleMoreIcon,
   },
 ];
@@ -54,17 +54,18 @@ function Socials({ variant = "default", size = "default" }: Props) {
   const socials = useMemo(() => {
     if (!contact) return socialsTemplate;
 
-    return socialsTemplate.map((social) => {
-      // replace the url with the actual contact info
-      // @ts-expect-error asdf
-      console.log(social.name, contact[social.name]);
+    const processedSocials = socialsTemplate.map((social) => {
       if (contact.hasOwnProperty(social.name)) {
         // @ts-expect-error asdf
         social.url = contact[social.name];
       }
-
       return social;
     });
+
+    const filteredSocials = processedSocials.filter((s) => s.url);
+    console.log(filteredSocials);
+
+    return filteredSocials;
   }, [contact]);
 
   return (
