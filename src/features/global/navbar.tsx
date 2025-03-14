@@ -41,11 +41,9 @@ function Navbar({ className }: { className?: string }) {
                         alt="Authoritycars logo"
                         width={150}
                         height={50}
-                        className="aspect-square w-8 rounded-xl"
+                        className="aspect-square w-10 rounded-xl"
                     />
-                    <h2 className="text-lg font-bold italic">
-                        authoritycars.pl
-                    </h2>
+                    <h2 className="text-lg font-bold italic">AUTHORITY CARS</h2>
                 </Link>
 
                 <MobileMenu links={links} />
