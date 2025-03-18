@@ -37,14 +37,6 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
       </Script>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1006784461365548&ev=PageView&noscript=1"
-        />
-      </noscript>{" "}
       <body className={`${inter.variable} dark antialiased`}>
         <section className="grid grid-cols-1 md:grid-cols-7">
           <Navbar className="sticky top-0 bottom-0 left-0 col-span-1" />
@@ -52,6 +44,14 @@ export default function RootLayout({
             {children}
           </main>
         </section>
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=1006784461365548&ev=PageView&noscript=1"
+          />
+        </noscript>
       </body>
     </html>
   );
