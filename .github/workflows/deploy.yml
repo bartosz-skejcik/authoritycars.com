@@ -22,6 +22,6 @@ jobs:
           script: |
             cd /var/www/authoritycars
             sudo -u nextjs-user git pull
-            /home/root/.bun/bin/bun install
-            /home/root/.bun/bin/bun run build
+            /root/.bun/bin/bun install
+            /root/.bun/bin/bun run build
             sudo systemctl restart authoritycars-landing-page
