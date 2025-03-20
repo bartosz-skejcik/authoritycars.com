@@ -32,23 +32,46 @@ const formSchema = z.object({
   telephone: z
     .string()
     .min(9, {
-      message: "Telephone number must be at least 9 characters.",
+      message: "Numer telefonu musi mieć co najmniej 9 znaków.",
     })
-    .refine(validator.isMobilePhone),
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  budget_from: z.string().min(1, {
-    message: "Budget from is required.",
-  }),
-  budget_to: z.string().min(1, {
-    message: "Budget to is required.",
-  }),
-  model: z.string({
-    required_error: "Please select a model.",
+    .max(15, {
+      message: "Numer telefonu nie może przekraczać 15 znaków.",
+    })
+    .refine(validator.isMobilePhone, {
+      message: "Proszę podać prawidłowy numer telefonu.",
+    }),
+  name: z
+    .string()
+    .min(2, {
+      message: "Imię musi mieć co najmniej 2 znaki.",
+    })
+    .max(50, {
+      message: "Imię nie może przekraczać 50 znaków.",
+    })
+    .regex(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s]+$/, {
+      message: "Imię może zawierać tylko litery i spacje.",
+    }),
+  budget_from: z
+    .string()
+    .min(1, {
+      message: "Minimalna kwota budżetu jest wymagana.",
+    })
+    .refine((value) => !isNaN(parseFloat(value.replace(/\s/g, ""))), {
+      message: "Budżet musi być prawidłową liczbą.",
+    }),
+  budget_to: z
+    .string()
+    .min(1, {
+      message: "Maksymalna kwota budżetu jest wymagana.",
+    })
+    .refine((value) => !isNaN(parseFloat(value.replace(/\s/g, ""))), {
+      message: "Budżet musi być prawidłową liczbą.",
+    }),
+  model: z.string().min(1, {
+    message: "Model pojazdu jest wymagany.",
   }),
   consent: z.literal(true, {
-    errorMap: () => ({ message: "You must accept the privacy policy" }),
+    errorMap: () => ({ message: "Musisz zaakceptować politykę prywatności" }),
   }),
 });
 
@@ -60,7 +83,7 @@ interface SubmissionFormProps {
 
 export default function SubmissionForm({ ref }: SubmissionFormProps) {
   // Use the submission form hook
-  const { isSubmitting, isSuccess, error, openStatusId, submitForm } =
+  const { isSubmitting, isSuccess, openStatusId, submitForm } =
     useSubmissionForm(ref);
 
   const form = useForm<FormValues>({
@@ -75,12 +98,30 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
   });
 
   async function onSubmit(data: FormValues) {
-    const success = await submitForm(data);
-    if (success) {
-      // Reset form after successful submission
-      setTimeout(() => {
-        form.reset();
-      }, 3000);
+    try {
+      if (parseInt(data.budget_from) > parseInt(data.budget_to)) {
+        form.setError("budget_to", {
+          type: "manual",
+          message: "Maksymalna kwota budżetu musi być większa od minimalnej.",
+        });
+        return;
+      }
+
+      const success = await submitForm(data);
+      if (success) {
+        // Reset form after successful submission
+        setTimeout(() => {
+          form.reset();
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      // Set a general error message
+      form.setError("root", {
+        type: "manual",
+        message:
+          "An error occurred while submitting the form. Please try again.",
+      });
     }
   }
 
@@ -135,7 +176,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                           />
                         </motion.div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="mt-1 text-sm text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -164,7 +205,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                           />
                         </motion.div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="mt-1 text-sm text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -205,7 +246,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
+                      <FormMessage className="mt-1 text-sm text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -235,7 +276,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                           />
                         </motion.div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="mt-1 text-sm text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -266,7 +307,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                           />
                         </motion.div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="mt-1 text-sm text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -301,7 +342,7 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                               Polityką Prywatności.
                             </Link>
                           </p>
-                          <FormMessage />
+                          <FormMessage className="mt-1 text-sm text-red-600" />
                         </div>
                       </FormItem>
                     )}
@@ -315,7 +356,6 @@ export default function SubmissionForm({ ref }: SubmissionFormProps) {
                 transition={{ delay: 0.3 }}
                 className="flex w-full flex-col space-y-2"
               >
-                {error && <p className="text-sm text-red-500">{error}</p>}
                 <div className="flex justify-end">
                   <Button
                     type="submit"

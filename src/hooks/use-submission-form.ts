@@ -65,7 +65,8 @@ export const useSubmissionForm = (refParam?: string) => {
       const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(responseData.error || "Failed to submit form");
+        setError(responseData.error || "Failed to submit form");
+        return false;
       }
 
       setIsSuccess(true);
